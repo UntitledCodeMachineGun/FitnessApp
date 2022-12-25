@@ -20,11 +20,11 @@ namespace Fitness.BL.Model
         /// <summary>
         /// Gender
         /// </summary>
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }
         /// <summary>
         /// Date of user`s birth
         /// </summary>
-        public DateTime BirthDate { get; }
+        public DateTime BirthDate { get; set; }
         /// <summary>
         /// User`s weight
         /// </summary>
@@ -33,6 +33,23 @@ namespace Fitness.BL.Model
         /// Uset`s height
         /// </summary>
         public double Height { get; set; }
+
+        /// <summary>
+        /// User`s age
+        /// </summary>
+        public int Age { 
+            get
+            {
+                var today = DateTime.Today;
+                var age = today.Year - BirthDate.Year;
+                if (BirthDate.AddYears(age) > today)
+                {
+                    age--;
+                }
+
+                return age;
+            } 
+        }
 
         #endregion
 
@@ -58,24 +75,26 @@ namespace Fitness.BL.Model
             }
 
             if (gender == null)
-            { 
+            {
                 throw new ArgumentNullException("Gender can`t be null.", nameof(gender));
             }
 
             if (birthDate < DateTime.Parse("01.01.1900") || birthDate > DateTime.Now)
-            { 
-                throw new ArgumentNullException("Wrong date of birth.", nameof(birthDate));
+            {
+                throw new ArgumentNullException("Wrong date of birth.", nameof(BirthDate));
             }
 
             if (weight <= 0)
-            { 
-                throw new ArgumentNullException("Wrong weight.", nameof(weight));
+            {
+                throw new ArgumentNullException("Wrong weight.", nameof(Weight));
             }
+            Weight = weight;
 
             if (height <= 0)
-            { 
-                throw new ArgumentNullException("Wrong height.", nameof(height));
+            {
+                throw new ArgumentNullException("Wrong height.", nameof(Height));
             }
+            Height = height;
 
             #endregion
 
@@ -86,9 +105,18 @@ namespace Fitness.BL.Model
             Height = height;
         }
 
+        public User(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentNullException("Username can`t be null or whitespace", nameof(name));
+            }
+            Name = name;
+        }
+
         public override string ToString()
         {
-            return Name;
+            return Name + " " + Age;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Fitness.BL.Controller;
 using System;
+using System.Globalization;
 
 namespace Fitness.cmd
 {
@@ -12,21 +13,54 @@ namespace Fitness.cmd
             Console.WriteLine("Input your username");
             var name = Console.ReadLine();
 
-            Console.WriteLine("Input your gender");
-            var gender = Console.ReadLine();
+            var userController = new UserController(name);
+            if (userController.IsNewUser)
+            {
+                Console.WriteLine("Input your gender");
+                var genderName = Console.ReadLine();
 
-            Console.WriteLine("Input date of your birth");
-            var bDay = DateTime.Parse(Console.ReadLine());
+                var birthDate = ParseBirthDay();
+                var weight = ParseDouble("weight");
+                var height = ParseDouble("height");
 
-            Console.WriteLine("Input your weight");
-            var weight = double.Parse(Console.ReadLine());
+                userController.SetNewUserData(genderName, birthDate, weight, height);
+            }
+            Console.WriteLine(userController.CurrentUser);
 
-            Console.WriteLine("Input your height");
-            var height = double.Parse(Console.ReadLine());
+            Console.ReadLine();
+        }
 
-            var userController = new UserController(name, gender, bDay, weight, height);
+        private static double ParseDouble(string name)
+        {
+            while (true)
+            {
+                Console.WriteLine($"Input {name}: ");
+                if (double.TryParse(Console.ReadLine(), out double value))
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine($"False {name} format");
+                }
+            }
+        }
 
-            userController.Save();
+        private static DateTime ParseBirthDay()
+        {
+            while (true)
+            {
+                Console.WriteLine("Input date of your birth (dd.MM.yyyy)");
+                if (DateTime.TryParse(Console.ReadLine(), CultureInfo.GetCultureInfo("uk-UA"),
+                                      DateTimeStyles.None, out DateTime birthDate))
+                {
+                    return birthDate;
+                }
+                else
+                {
+                    Console.WriteLine("False birth day format");
+                }
+            }
         }
     }
 }
