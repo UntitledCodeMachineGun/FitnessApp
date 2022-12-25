@@ -55,11 +55,7 @@ namespace Fitness.BL.Controller
 
             using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
             {
-                if (fs.Length == 0)
-                {
-                    return new List<User>();
-                }
-                else if (formatter.Deserialize(fs) is List<User> users)
+                if (fs.Length > 0 && formatter.Deserialize(fs) is List<User> users)
                 {
                     return users;
                 }
