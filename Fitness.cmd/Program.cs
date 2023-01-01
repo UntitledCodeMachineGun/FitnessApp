@@ -2,6 +2,7 @@
 using Fitness.BL.Model;
 using System;
 using System.Globalization;
+using System.Resources;
 
 namespace Fitness.cmd
 {
@@ -9,9 +10,15 @@ namespace Fitness.cmd
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to FitnessApp");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.InputEncoding = System.Text.Encoding.UTF8;
 
-            Console.WriteLine("Input your username");
+            var culture = CultureInfo.CreateSpecificCulture("uk-UA");
+            var resourceManager = new ResourceManager("Fitness.cmd.Languages.Messages", typeof(Program).Assembly);
+
+            Console.WriteLine(resourceManager.GetString("WelcomeMsg", culture));
+
+            Console.WriteLine(resourceManager.GetString("InputUserName", culture));
             var name = Console.ReadLine();
 
             var userController = new UserController(name);
@@ -19,7 +26,7 @@ namespace Fitness.cmd
 
             if (userController.IsNewUser)
             {
-                Console.WriteLine("Input your gender");
+                Console.WriteLine(resourceManager.GetString("InputGender", culture));
                 var genderName = Console.ReadLine();
 
                 var birthDate = ParseBirthDay();
