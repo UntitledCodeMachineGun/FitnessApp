@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Fitness.BL.Model
 {
@@ -11,16 +11,22 @@ namespace Fitness.BL.Model
 
     public class User
     {
+
         #region properties
+
+        public int Id { get; set; }
 
         /// <summary>
         /// Name.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
+
+        public int? GenderId { get; set; }
         /// <summary>
         /// Gender
         /// </summary>
-        public Gender Gender { get; set; }
+        public virtual Gender Gender { get; set; }
+
         /// <summary>
         /// Date of user`s birth
         /// </summary>
@@ -33,7 +39,6 @@ namespace Fitness.BL.Model
         /// Uset`s height
         /// </summary>
         public double Height { get; set; }
-
         /// <summary>
         /// User`s age
         /// </summary>
@@ -50,8 +55,13 @@ namespace Fitness.BL.Model
                 return age;
             } 
         }
+        public virtual ICollection<Eating> Eatings { get; set; }
+        public virtual ICollection<Exercise> Exercises { get; set; }
 
         #endregion
+
+        public User() { }
+
 
         /// <summary>
         /// Crate new user

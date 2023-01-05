@@ -1,38 +1,42 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace Fitness.BL.Model
 {
     [Serializable]
     public class Food
     {
+        public int Id { get; set; }
         /// <summary>
         /// Product name
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         /// <summary>
         /// Proteins
         /// </summary>
-        public double Proteins { get; }
+        public double Proteins { get; set; }
         /// <summary>
         /// Fats
         /// </summary>
-        public double Fats { get; }
-        public double Carbonhydrates { get; }
+        public double Fats { get; set; }
+        public double Carbonhydrates { get; set; }
 
         /// <summary>
         /// Carbohydrates
         /// </summary>
-        public double Carbohydrates { get; }
+        public double Carbohydrates { get; set; }
         /// <summary>
         /// Calories / 100 grammes of product
         /// </summary>
-        public double Calories { get; }
+        public double Calories { get; set; }
+        public virtual ICollection<Eating> Eatings { get; set; }
 
-        private double CaloriesOneGramm { get { return Calories / 100.0; } }
-        private double ProteinsOneGramm { get { return Proteins / 100.0; } }
-        private double FatsOneGramm { get { return Fats / 100.0; } }
-        private double CarbohydratesOneGramm { get { return Carbohydrates / 100.0; } }
+        //private double CaloriesOneGramm { get { return Calories / 100.0; } }
+        //private double ProteinsOneGramm { get { return Proteins / 100.0; } }
+        //private double FatsOneGramm { get { return Fats / 100.0; } }
+        //private double CarbohydratesOneGramm { get { return Carbohydrates / 100.0; } }
+
+        public Food() { }
 
         public Food(string name) : this(name, 0, 0, 0, 0) { }
 
@@ -52,7 +56,7 @@ namespace Fitness.BL.Model
 
         public override string ToString()
         {
-            return base.ToString();
+            return Name;
         }
     }
 }

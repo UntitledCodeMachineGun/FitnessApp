@@ -1,18 +1,26 @@
-﻿using System;
-
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Fitness.BL.Controller
 {
     public class DataBaseDataSaver : IDataSaver
     {
-        public T Load<T>(string filename)
+        public List<T> Load<T>() where T : class
         {
-            throw new NotImplementedException();
+            using (var db = new FitnessContext())
+            {
+                var result = db.Set<T>().Where(k => true).ToList();
+                return result;
+            }
         }
 
-        public void Save(string filename, object item)
+        public void Save<T>(List<T> item) where T: class
         {
-            throw new NotImplementedException();
+            using (var db = new FitnessContext())
+            {
+                db.Set<T>().AddRange(item);
+                db.SaveChanges();
+            }
         }
     }
 }
